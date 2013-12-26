@@ -14,7 +14,7 @@ import scala.xml._
 class BasicExampleSimulation extends Simulation {
 
 	val client = new AsyncHttpClient()
-  val response = client.prepareGet("http://a.goember.com/vast/db98791e231ad2c925fdbb39").execute().get()
+  val response = client.prepareGet("test").execute().get()
   val ad_tag = XML.loadString(response.getResponseBody().toString)
 
   // regular expression method
@@ -33,7 +33,7 @@ class BasicExampleSimulation extends Simulation {
   println(ad_string)
 
 	val httpProtocol = http
-		.baseURL("http://a.goember.com/vast")
+		.baseURL("test")
 		.acceptCharsetHeader("ISO-8859-1,utf-8;q=0.7,*;q=0.7")
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate")
