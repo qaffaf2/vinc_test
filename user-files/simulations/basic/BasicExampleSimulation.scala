@@ -9,16 +9,31 @@ import bootstrap._
 import assertions._
 import com.ning.http.client._
 import java.util.concurrent.Future
+import scala.xml._
 
 class BasicExampleSimulation extends Simulation {
 
 	val client = new AsyncHttpClient()
-  val response = client.prepareGet("test").execute().get()
-  println(response.getResponseBody())
+  val response = client.prepareGet("http://a.goember.com/vast/db98791e231ad2c925fdbb39").execute().get()
+  val ad_tag = XML.loadString(response.getResponseBody().toString)
 
+  // regular expression method
+  // val impression = "<Impression>\\n\\S+\\nhttp:\\/\\/.+\\n\\S+<\\/Impression>".r
+  // val impress = scala.impression findAllIn ad_tag
+  // println(impress)
+
+  // parsing xml method
+  // val impression = ad_tag \\ "Impression"
+  // val impression_pattern = "http:\\/\\/.+".r
+  // val impression_url = impression_pattern findAllIn impression.toString
+  // println(impression_url.mkString(""))
+
+  val ad_object = new ParseXMLRegex()
+  val ad_string = ad_object.parse_object(ad_tag)
+  println(ad_string)
 
 	val httpProtocol = http
-		.baseURL("test")
+		.baseURL("http://a.goember.com/vast")
 		.acceptCharsetHeader("ISO-8859-1,utf-8;q=0.7,*;q=0.7")
 		.acceptHeader("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
 		.acceptEncodingHeader("gzip, deflate")
